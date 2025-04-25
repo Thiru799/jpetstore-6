@@ -14,7 +14,7 @@ stages:
        steps:
          - task: AzureCLI@2
            inputs:
-             azureSubscription: "justpracticerepo"
+             azureSubscription: "HPE_FC_RPA_SUPPORT_BOTS-connection"
              scriptType: 'bash'
              scriptLocation: inlineScript
              inlineScript:  |

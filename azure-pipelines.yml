@@ -29,15 +29,16 @@ stages:
                 curl https://pypi.org/simple
                 
           
-          - task: UsePythonVersion@0
-            inputs:
-              versionSpec: '3.7.9'
-              addToPath: true
-              architecture: 'x64'
-          - script: |
-              python -m pip install --upgrade pip setuptools wheel
-              pip install --prefer-binary -r requirements.txt
-          - script: |
-              echo Python dependencies installed successfully! 
-            displayName: 'Success Message'
-            condition: succeeded()
+        
+                - task: UsePythonVersion@0
+                            inputs:
+                              versionSpec: '3.7.9'
+                              addToPath: true
+                              architecture: 'x64'
+                          - script: |
+                              python -m pip install --upgrade pip setuptools wheel
+                              pip install --prefer-binary -r requirements.txt
+                          - script: |
+                              echo Python dependencies installed successfully! 
+                            displayName: 'Success Message'
+                            condition: succeeded()

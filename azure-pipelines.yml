@@ -17,15 +17,15 @@ stages:
               scriptType: 'bash'
               scriptLocation: inlineScript
               inlineScript: |
-                git clone -b dev https://github.com/Thiru799/taxi-booking.git temp_project
+                git clone -b master https://github.com/Thiru799/jpetstore-6.gitt temp_project
                 ls
                 mkdir -p /d/Projects/demo 
                 cp -r temp_project/* /d/Projects/demo
                 ls /d/Projects/demo/
-                python3 -m venv dev
+                python3 -m venv master
                 ls
                 echo "Activating virtual environment..."
-                source dev/Scripts/activate
+                source master/Scripts/activate
                 curl https://pypi.org/simple
                 
           

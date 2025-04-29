@@ -1,0 +1,57 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: windows-latest
+
+steps:
+- task: AzurePowerShell@5
+  inputs:
+    azureSubscription: 'HPE_FC_RPA_SUPPORT_BOTS-connection-1'
+    ScriptType: 'InlineScript'
+    Inline: |
+      # Clone the repo into temp_project
+      git clone -b master https://github.com/Thiru799/jpetstore-6.git temp_project
+      
+      # List current directory contents
+      Get-ChildItem
+      
+      # Create the target directory
+      New-Item -ItemType Directory -Path "D:\Projects\demo" -Force
+      
+      # Copy all contents from temp_project to D:\Projects\demo
+      Copy-Item -Path "temp_project\*" -Destination "D:\Projects\demo" -Recurse -Force
+      
+      # List the contents of D:\Projects\demo
+      Get-ChildItem -Path "D:\Projects\demo"
+
+      # manually downloading and installing python 3.7.9
+      Invoke-WebRequest -Uri https://www.python.org/ftp/python/3.7.9/python-3.7.9-amd64.exe -OutFile $env:TEMP\python-3.7.9-amd64.exe    
+      Start-Process -FilePath $env:TEMP\python-3.7.9-amd64.exe -ArgumentList "/quiet InstallAllUsers=1 PrependPath=1 Include_test=0" -Wait 
+
+      # (Optional) If you want a specific version like 3.10, you can use py launcher:
+      py -3.7 --version
+      py -3.7 -m venv master
+      
+      # Activate the virtual environment
+      Write-Host "Activating virtual environment..."
+      & .\master\Scripts\Activate.ps1
+      
+      # Upgrade pip, setuptools, and wheel
+      python -m pip install --upgrade pip setuptools wheel
+      
+      # Install dependencies from requirements.txt
+      pip install --prefer-binary -r D:\Projects\demo\requirements.txt
+
+      Write-Host "Listing installed packages from .\master\Lib\site-packages "
+
+      Get-ChildItem -Path ".\master\Lib\site-packages"
+
+
+    azurePowerShellVersion: '9.4.0'
+
